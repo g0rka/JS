@@ -1,0 +1,56 @@
+let i=0
+
+let rgb = {
+    rgb1: [],
+    rgb2: [],
+    delta:[],
+    deltaMax:0,
+    deltaSpeed:[],
+    makeColor: color
+}
+
+function color () {
+    for (let i = 0; i < 3; i++) {
+        if (this.rgb1[i]===undefined) {
+            this.rgb1[i] = Math.round(Math.random() * 250)
+        }else{
+            this.rgb1[i] = this.rgb2[i]
+        }
+        this.rgb2[i] = Math.round(Math.random() * 250)
+        this.delta[i] = Math.abs(this.rgb2[i] - this.rgb1[i])
+    }
+    this.deltaMax = Math.max.apply(null, this.delta)
+    for (let i = 0; i < 3; i++) {
+        this.deltaSpeed[i] = (this.delta[i] / this.deltaMax)*(this.rgb2[i]-this.rgb1[i])/this.delta[i]
+    }
+}
+
+ rgb.makeColor()
+
+function changeColor() {
+    if (i < rgb.deltaMax) {
+            document.body.style.backgroundColor = `rgb(` +
+                Math.round(rgb.rgb1[0] + i * rgb.deltaSpeed[0]) +
+                `,` +
+                Math.round(rgb.rgb1[1] + i * rgb.deltaSpeed[1]) +
+                `,` +
+                Math.round(rgb.rgb1[2] + i * rgb.deltaSpeed[2]) + `)`
+            i++} else{
+        rgb.makeColor()
+        i = 0
+        changeColor()
+        }
+
+        }
+
+
+
+
+
+setInterval(changeColor,50)
+
+
+
+
+
+
